@@ -1,0 +1,137 @@
+#title-box {
+text-align: center;
+vertical-align: middle;
+line-height: 150px;
+height: 150px;
+font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;
+margin-bottom: 30px;
+}
+
+#time-box {
+text-align: center;
+vertical-align: middle;
+line-height: 150px;
+height: 150px;
+font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;
+margin-bottom: 30px;
+}
+
+#correct-question-box {
+text-align: center;
+vertical-align: middle;
+line-height: 150px;
+height: 150px;
+font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;
+margin-bottom: 30px;
+}
+#wrong-answer-text-box {
+text-align: center;
+vertical-align: middle;
+line-height: 75px;
+height: 75px;
+font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;
+margin-bottom: 15px;
+}
+
+#generate-image-box {
+text-align: center;
+vertical-align: middle;
+line-height: 75px;
+height: 75px;
+/*font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;*/
+margin-bottom: 15px;
+}
+
+
+
+
+.question-choices-box {
+text-align: center;
+vertical-align: middle;
+
+margin-bottom: 30px;
+}
+
+#choice-one-box {
+text-align: center;
+vertical-align: middle;
+line-height: 75px;
+height: 75px;
+font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;
+margin-bottom: 15px;
+}
+#choice-two-box {
+text-align: center;
+vertical-align: middle;
+line-height: 75px;
+height: 75px;
+font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;
+margin-bottom: 15px;
+}
+
+#choice-three-box {
+text-align: center;
+vertical-align: middle;
+line-height: 75px;
+height: 75px;
+font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;
+margin-bottom: 15px;
+}
+
+#choice-four-box {
+text-align: center;
+vertical-align: middle;
+line-height: 75px;
+height: 75px;
+font-size: 25px;
+color:black;
+border-color: black;
+border-width: 5px;
+border-style: solid;
+margin-bottom: 30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
