@@ -1,10 +1,13 @@
 body{
 	font-family: 'Gloria Hallelujah', cursive;
+	background-image: url("../images/nintendo-background.jpeg");
 }
+
 
 #button1{
 	text-align: center;
 	vertical-align: middle;
+	margin-bottom: 30px;
 }
 
 
@@ -19,19 +22,21 @@ border-color: black;
 border-width: 5px;
 border-style: solid;
 margin-bottom: 30px;
+background-color: white;
 }
 
 #time-box {
 text-align: center;
 vertical-align: middle;
-line-height: 150px;
-height: 150px;
+line-height: 90px;
+height: 90px;
 font-size: 25px;
 color:black;
 border-color: black;
 border-width: 5px;
 border-style: solid;
 margin-bottom: 30px;
+background-color: white;
 }
 
 #correct-question-box {
@@ -45,19 +50,21 @@ border-color: black;
 border-width: 5px;
 border-style: solid;
 margin-bottom: 30px;
+background-color: white;
 /*word-wrap: break-word;*/
 }
 #wrong-answer-text-box {
 text-align: center;
 vertical-align: middle;
-line-height: 75px;
-height: 75px;
+line-height: 60px;
+height: 60px;
 font-size: 25px;
 color:black;
 border-color: black;
 border-width: 5px;
 border-style: solid;
 margin-bottom: 15px;
+background-color: white;
 }
 
 #generate-image-box {
@@ -87,6 +94,7 @@ border-color: black;
 border-width: 5px;
 border-style: solid;
 margin-bottom: 15px;
+background-color: white;
 }
 #choice-two-box {
 text-align: center;
@@ -99,6 +107,7 @@ border-color: black;
 border-width: 5px;
 border-style: solid;
 margin-bottom: 15px;
+background-color: white;
 }
 
 #choice-three-box {
@@ -112,6 +121,7 @@ border-color: black;
 border-width: 5px;
 border-style: solid;
 margin-bottom: 15px;
+background-color: white;
 }
 
 #choice-four-box {
@@ -125,6 +135,7 @@ border-color: black;
 border-width: 5px;
 border-style: solid;
 margin-bottom: 30px;
+background-color: white;
 }
 
 
