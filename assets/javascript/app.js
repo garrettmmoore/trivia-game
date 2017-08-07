@@ -1,41 +1,25 @@
 
 $( document ).ready(function() {
 
-function timer(questionDotCorrectImage,questionDotWrongAnswerText)
+var countDownInterval=null;
+// Create a timer and pass these two values
+function timer()
 {
 	var counter = 30;
-
-	setInterval(function(questionDotCorrectImage,questionDotWrongAnswerText) 
+	$("#time-box").html(counter);
+	countDownInterval = setInterval(function() 
 	{
+
 		counter--;
 		if (counter >= 0) 
     	{
       		$("#time-box").html(counter);
     	}
-    	// Display 'counter' wherever you want to display it.
+
 		if (counter === 0) 
 		{
-	    	// alert("sorry!!");
-	    // 	$("#correct-question-box").html("lost correct question box..lost");
-	    // 	$(".question-choices-box").hide();
-	    // 	$("#generate-image-box").html(questionDotCorrectImage);
-	    // 	$("#wrong-answer-text-box").html(questionDotWrongAnswerText);
-	    // 	$("#generate-image-box").show();
-	    // 	$("#wrong-answer-text-box").show();
-	    // 	loss++;
-	    	
-    	// 	setTimeout(function()
-    	//     {
-    	//     	$("#generate-image-box").hide();
-    	//     	$("#wrong-answer-text-box").hide();
-    	//     	$(".question-choices-box").show();
-    	    	
-
-		  	// }, 5000);
-	    		// newQuestion(count++);
-        
-        	clearInterval(counter);
-        	// newQuestion();
+        	clearInterval(countDownInterval);
+        	answerHelper("djhfsdla", questions[index-1]);
 
 		}
     
@@ -46,353 +30,103 @@ function timer(questionDotCorrectImage,questionDotWrongAnswerText)
 
 var wins = 1;
 var loss = 1;
-var count = 1;
+var count = 0;
 
+	// Create a start function to begin game on click
 	function startGame(){
+		// Start button for user to click
 		$("#button1").click(function(){
+			// Increase count so that first question can be called
+			count++;
+			// Generates new question on click
 			newQuestion();
-			$(this).hide();
-			timer();
+			// Start Timer
 			
+			// Hide button after click
+			$(this).hide();	
 		});
 	}
+	// Call startGame function to get everything started on click
 	startGame();
 
-	function Trivia(question, choice1, choice2, choice3, choice4, answer, image, wrongAnswer)
+	// Create constructor object with these 8 parameters so the question objects(q1 - q8) can access these properties
+	function Trivia(question, choices, answer, image, wrongAnswer)
 	{
+
 		this.questionTitle = question;
-		this.firstChoice = choice1;
-		this.secondChoice = choice2;
-		this.thirdChoice = choice3;
-		this.fourthChoice = choice4;
+		this.choices = choices;
 		this.correctAnswer = answer;
 		this.correctImage= image;
+		// Text that shows when answer was incorrect
 		this.wrongAnswerText = wrongAnswer;
 	}
 
+	// Create new object for each question
+	var q1 = new Trivia("What year was nintendo founded?", ["1950", "1889", "1982", "1970"], "1889", "<img src='assets/images/mario.png'/>", "mario rocks");
+	var q2 = new Trivia("What was the first Pokemon game released in Japan?", ["Red", "Blue", "Yellow", "Green"], "Green", "<img src='assets/images/pikachu.png'/>", "Pikachu rocks");
+	var q3 = new Trivia("Which of these titles was Luigi's first game?", ["Mario 64", "Luigi's Dream Castle", "Luigi and Peach", "Luigi's Mansion"], "Luigi's Mansion", "<img src='assets/images/luigi.png'/>", "luigi rocks");
+	var q4 = new Trivia("What color did Miyamoto originally want Kirby to be?", ["Red", "White", "Yellow", "Pink"], "Yellow", "<img src='assets/images/kirby.png'/>", "kirby rocks");
+	var q5 = new Trivia("Which of these characters didn't speak until Super Mario Sunshine?", ["Yoshi", "Toad", "Bowser", "Mario"], "Bowser", "<img src='assets/images/bowser.png'/>", "bowser rocks");
+	var q6 = new Trivia("Which of these characters was the first villain in Mario?", ["Bowser", "Yoshi", "Donkey Kong", "Ganondorf"], "Donkey Kong", "<img src='assets/images/donkey-kong.png'/>", "donkey kong rocks");
+	var q7 = new Trivia("Which of these titles was released on the Nintendo Gamecube for The Legend of Zelda?", ["Majora's Mask", "Ocarina of Time", "Wind Waker", "A Link to the Past"], "Wind Waker", "<img src='assets/images/toon-link.png'/>", "toon link rocks");
+	var q8 = new Trivia("The character Samus is a ?", ["Man", "Alien", "Unknown", "Woman"], "Woman", "<img src='assets/images/samus.png'/>", "samus rocks");
 
-	var q1 = new Trivia("What year was nintendo founded?", "1994", "1996", "1997", "1998", "1994", "<img src='assets/images/mario.png'/>", "mario rocks");
-	var q2 = new Trivia("What year was blizzard founded?", "1894", "1896", "1897", "1898", "1894", "<img src='assets/images/pikachu.png'/>", "Pikachu rocks");
-	var q3 = new Trivia("What year was mario founded?", "1794", "1796", "1797", "1798", "1794", "<img src='assets/images/luigi.png'/>", "luigi rocks");
-	var q4 = new Trivia("What year was riot founded?", "1694", "1696", "1597", "1498", "1394", "<img src='assets/images/kirby.png'/>", "kirby rocks");
-	var q5 = new Trivia("What year was zelda founded?", "1594", "1596", "1597", "1598", "1594", "<img src='assets/images/bowser.png'/>", "bowser rocks");
-	var q6 = new Trivia("What year was square enix founded?", "1494", "1496", "1497", "1498", "1494", "<img src='assets/images/donkey-kong.png'/>", "donkey kong rocks");
-	var q7 = new Trivia("What year was bethesda founded?", "1394", "1396", "1397", "1398", "1394", "<img src='assets/images/toon-link.png'/>", "toon link rocks");
-	var q8 = new Trivia("What year was naughty dog founded?", "1294", "1296", "1297", "1298", "1294", "<img src='assets/images/samus.png'/>", "samus rocks");
+
+	var questions = [q1, q2, q3, q4, q5, q6, q7, q8];
+	var index = 0;
 
 
+	// Create newQuestion function that will choose the question to display 
 	function newQuestion()
 	{
 		timer();
-		// // var i = 1
-		// var i = Math.floor((Math.random() * 8) + 1);
-		// console.log("i = : " + i);
-		
-
-		if(count === 1)
+		if(index >= questions.length)
 		{
-			$("#correct-question-box").html(q1.questionTitle);
-			$("#choice-one-box").html(q1.firstChoice);
-			$("#choice-two-box").html(q1.secondChoice);
-			$("#choice-three-box").html(q1.thirdChoice);
-			$("#choice-four-box").html(q1.fourthChoice);
+					
+			
+			endGame();
+			
+		}
+		else
+		{
+			
+			$("#correct-question-box").html(questions[index].questionTitle);
 
 						// Question 1
-			$("#choice-one-box").click(function()
-			{
-				// count++;
-				answerHelper(q1.firstChoice, q1.correctAnswer, q1.correctImage, q1.wrongAnswerText);
-				timer(q1.correctImage, q1.wrongAnswerText);
+						var question = questions[index];
+						var choicesHtml = $(".choices")
+						for(var i = 0; i < choicesHtml.length; i++){
 
-			});
+							var choiceHTML = $(choicesHtml[i]);
+							var selection = questions[index].choices[i];
+							$(choiceHTML).html(selection);
 
-			$("#choice-two-box").click(function()
-			{
-				// count++;
-				answerHelper(q1.secondChoice, q1.correctAnswer, q1.correctImage, q1.wrongAnswerText);
-				timer(q1.correctImage, q1.wrongAnswerText);
-			});
+							choiceHTML.off("click");
+							choiceHTML.on("click", function()
+							{
+								// count++;
+								answerHelper(selection, question);
+								
+								clearInterval(countDownInterval);
+							});
+						}
 
-			$("#choice-three-box").click(function()
-			{
-				// count++;
-				answerHelper(q1.thirdChoice, q1.correctAnswer, q1.correctImage, q1.wrongAnswerText);
-				timer(q1.correctImage, q1.wrongAnswerText);
-			});
-
-			$("#choice-four-box").click(function()
-			{
-				// count++;
-				answerHelper(q1.fourthChoice, q1.correctAnswer, q1.correctImage, q1.wrongAnswerText);
-				timer(q1.correctImage, q1.wrongAnswerText);
-			});
+			index++;
+		}
 			
-		}
-		if(count === 2)
-		{
-			$("#correct-question-box").html(q2.questionTitle);
-			$("#choice-one-box").html(q2.firstChoice);
-			$("#choice-two-box").html(q2.secondChoice);
-			$("#choice-three-box").html(q2.thirdChoice);
-			$("#choice-four-box").html(q2.fourthChoice);
-
-					// Question 2
-
-			$("#choice-one-box").click(function()
-			{
-				// count++;
-				answerHelper(q2.firstChoice, q2.correctAnswer, q2.correctImage, q2.wrongAnswerText);
-			});
-
-			$("#choice-two-box").click(function()
-			{
-				// count++;
-				answerHelper(q2.secondChoice, q2.correctAnswer, q2.correctImage, q2.wrongAnswerText);
-			});
-
-			$("#choice-three-box").click(function()
-			{
-				// count++;
-				answerHelper(q2.thirdChoice, q2.correctAnswer, q2.correctImage, q2.wrongAnswerText);
-			});
-
-			$("#choice-four-box").click(function()
-			{
-				// count++;
-				answerHelper(q2.fourthChoice, q2.correctAnswer, q2.correctImage, q2.wrongAnswerText);
-			});
-			
-		}
-		if(count===4)
-		{
-			$("#correct-question-box").html(q3.questionTitle);
-			$("#choice-one-box").html(q3.firstChoice);
-			$("#choice-two-box").html(q3.secondChoice);
-			$("#choice-three-box").html(q3.thirdChoice);
-			$("#choice-four-box").html(q3.fourthChoice);
-
-					//Question 3
-			$("#choice-one-box").click(function()
-			{
-				// count++;
-				answerHelper(q3.firstChoice, q3.correctAnswer, q3.correctImage, q3.wrongAnswerText);
-			});
-
-			$("#choice-two-box").click(function()
-			{
-				// count++;
-				answerHelper(q3.secondChoice, q3.correctAnswer, q3.correctImage, q3.wrongAnswerText);
-			});
-
-			$("#choice-three-box").click(function()
-			{
-				// count++;
-				answerHelper(q3.thirdChoice, q3.correctAnswer, q3.correctImage, q3.wrongAnswerText);
-			});
-
-			$("#choice-four-box").click(function()
-			{
-				// count++;
-				answerHelper(q3.fourthChoice, q3.correctAnswer, q3.correctImage, q3.wrongAnswerText);
-			});
-			
-		}
-		if(count===8)
-		{
-			$("#correct-question-box").html(q4.questionTitle);
-			$("#choice-one-box").html(q4.firstChoice);
-			$("#choice-two-box").html(q4.secondChoice);
-			$("#choice-three-box").html(q4.thirdChoice);
-			$("#choice-four-box").html(q4.fourthChoice);
-
-					// Question 4
-
-			$("#choice-one-box").click(function()
-			{
-				// count++;
-				answerHelper(q4.firstChoice, q4.correctAnswer, q4.correctImage, q4.wrongAnswerText);
-			});
-
-			$("#choice-two-box").click(function()
-			{
-				// count++;
-				answerHelper(q4.secondChoice, q4.correctAnswer, q4.correctImage, q4.wrongAnswerText);
-			});
-
-			$("#choice-three-box").click(function()
-			{
-				// count++;
-				answerHelper(q4.thirdChoice, q4.correctAnswer, q4.correctImage, q4.wrongAnswerText);
-			});
-
-			$("#choice-four-box").click(function()
-			{
-				// count++;
-				answerHelper(q4.fourthChoice, q4.correctAnswer, q4.correctImage, q4.wrongAnswerText);
-			});
-			
-		}
-		if(count===16)
-		{
-			$("#correct-question-box").html(q5.questionTitle);
-			$("#choice-one-box").html(q5.firstChoice);
-			$("#choice-two-box").html(q5.secondChoice);
-			$("#choice-three-box").html(q5.thirdChoice);
-			$("#choice-four-box").html(q5.fourthChoice);
-
-					// Question 5
-
-			$("#choice-one-box").click(function()
-			{
-				// count++;
-				answerHelper(q5.firstChoice, q5.correctAnswer, q5.correctImage, q5.wrongAnswerText);
-			});
-
-			$("#choice-two-box").click(function()
-			{
-				// count++;
-				answerHelper(q5.secondChoice, q5.correctAnswer, q5.correctImage, q5.wrongAnswerText);
-			});
-
-			$("#choice-three-box").click(function()
-			{
-				// count++;
-				answerHelper(q5.thirdChoice, q5.correctAnswer, q5.correctImage, q5.wrongAnswerText);
-			});
-
-			$("#choice-four-box").click(function()
-			{
-				// count++;
-				answerHelper(q5.fourthChoice, q5.correctAnswer, q5.correctImage, q5.wrongAnswerText);
-			});
-			
-		}
-		if(count===32)
-		{
-			$("#correct-question-box").html(q6.questionTitle);
-			$("#choice-one-box").html(q6.firstChoice);
-			$("#choice-two-box").html(q6.secondChoice);
-			$("#choice-three-box").html(q6.thirdChoice);
-			$("#choice-four-box").html(q6.fourthChoice);
-
-					// Question 6
-
-			$("#choice-one-box").click(function()
-			{
-				// count++;
-				answerHelper(q6.firstChoice, q6.correctAnswer, q6.correctImage, q6.wrongAnswerText);
-			});
-
-			$("#choice-two-box").click(function()
-			{
-				// count++;
-				answerHelper(q6.secondChoice, q6.correctAnswer, q6.correctImage, q6.wrongAnswerText);
-			});
-
-			$("#choice-three-box").click(function()
-			{
-				// count++;
-				answerHelper(q6.thirdChoice, q6.correctAnswer, q6.correctImage, q6.wrongAnswerText);
-			});
-
-			$("#choice-four-box").click(function()
-			{
-				// count++;
-				answerHelper(q6.fourthChoice, q6.correctAnswer, q6.correctImage, q6.wrongAnswerText);
-			});
-			
-		}
-		if(count===64)
-		{
-			$("#correct-question-box").html(q7.questionTitle);
-			$("#choice-one-box").html(q7.firstChoice);
-			$("#choice-two-box").html(q7.secondChoice);
-			$("#choice-three-box").html(q7.thirdChoice);
-			$("#choice-four-box").html(q7.fourthChoice);
-
-					// Question 7
-
-			$("#choice-one-box").click(function()
-			{
-				// count++;
-				answerHelper(q7.firstChoice, q7.correctAnswer, q7.correctImage, q7.wrongAnswerText);
-			});
-
-			$("#choice-two-box").click(function()
-			{
-				// count++;
-				answerHelper(q7.secondChoice, q7.correctAnswer, q7.correctImage, q7.wrongAnswerText);
-			});
-
-			$("#choice-three-box").click(function()
-			{
-				// count++;
-				answerHelper(q7.thirdChoice, q7.correctAnswer, q7.correctImage, q7.wrongAnswerText);
-			});
-
-			$("#choice-four-box").click(function()
-			{
-				// count++;
-				answerHelper(q7.fourthChoice, q7.correctAnswer, q7.correctImage, q7.wrongAnswerText);
-
-			});
-			
-		}
-		if(count===128)
-		{
-			$("#correct-question-box").html(q8.questionTitle);
-			$("#choice-one-box").html(q8.firstChoice);
-			$("#choice-two-box").html(q8.secondChoice);
-			$("#choice-three-box").html(q8.thirdChoice);
-			$("#choice-four-box").html(q8.fourthChoice);
-
-					// Question 8
-
-			$("#choice-one-box").click(function()
-			{
-				// count++;
-				answerHelper(q8.firstChoice, q8.correctAnswer, q8.correctImage, q8.wrongAnswerText);
-			});
-
-			$("#choice-two-box").click(function()
-			{
-				// count++;
-				answerHelper(q8.secondChoice, q8.correctAnswer, q8.correctImage, q8.wrongAnswerText);
-			});
-
-			$("#choice-three-box").click(function()
-			{
-				// count++;
-				answerHelper(q8.thirdChoice, q8.correctAnswer, q8.correctImage, q8.wrongAnswerText);
-			});
-
-			$("#choice-four-box").click(function()
-			{
-				// count++;
-				answerHelper(q8.fourthChoice, q8.correctAnswer, q8.correctImage, q8.wrongAnswerText);
-			});
-			
-		}
-		
-	
-		if(count>=150)
-		{
-			endGame();
-		}
-		
 	}
 
 	
 
-	function answerHelper(questionDotChoice, questionDotAnswer, questionDotCorrectImage, questionDotWrongAnswerText)
+	function answerHelper(choice, question)
 	{
-		    if(questionDotChoice.includes(questionDotAnswer))
+		    if(choice.includes(question.correctAnswer))
 		    {
 		    	// alert("Yay it worked!!");
-		    	
+
 		    	$("#correct-question-box").html("Winner correct question box..Winner");
 		    	$(".question-choices-box").hide();
-		    	$("#generate-image-box").html(questionDotCorrectImage);
+		    	$("#generate-image-box").html(question.correctImage);
 		    	// $("#wrong-answer-text-box").html(questionDotWrongAnswerText);
 		    	$("#generate-image-box").show();
     	    	// $("#wrong-answer-text-box").show();
@@ -412,8 +146,8 @@ var count = 1;
 		    	// alert("sorry!!");
 		    	$("#correct-question-box").html("lost correct question box..lost");
 		    	$(".question-choices-box").hide();
-		    	$("#generate-image-box").html(questionDotCorrectImage);
-		    	$("#wrong-answer-text-box").html(questionDotWrongAnswerText);
+		    	$("#generate-image-box").html(question.correctImage);
+		    	$("#wrong-answer-text-box").html(question.wrongAnswerText);
 		    	$("#generate-image-box").show();
     	    	$("#wrong-answer-text-box").show();
 		    	loss++;
@@ -434,11 +168,7 @@ var count = 1;
 
 		    
 	}
-
-		    
-
 	
-
 	console.log("Count: " + count);
 
 
@@ -452,7 +182,10 @@ function endGame(){
 		count = 0;
 		win = 0;
 		loss = 0;
+		index = 0;
+		clearInterval(countDownInterval);
 		startGame();
+
 
 }
 
