@@ -4,7 +4,8 @@ $("#wrong-answer-text-box").hide();
 
 var unanswered = 0;
 var countDownInterval=null;
-// Create a timer and pass these two values
+
+// Create a timer
 function timer()
 {
 	var counter = 20;
@@ -42,12 +43,12 @@ var count = 0;
 		$("#button1").click(function(){
 			clearInterval(countDownInterval);
 			index = 0;
-			// Increase count so that first question can be called
+
 			count++;
 
 			// Hide button after click
 			$(this).hide();	
-			
+
 			// Generates new question on click
 			newQuestion();
 			// Start Timer
@@ -71,6 +72,7 @@ var count = 0;
 	}
 
 	// Create new object for each question
+	// Note the array of choices inside the object
 	var q1 = new Trivia("What year was nintendo founded?", ["1950", "1889", "1982", "1970"], "1889", "<img src='assets/images/mario.png'/>", "The correct answer was 1889.");
 	var q2 = new Trivia("What was the first Pokemon game released in Japan?", ["Red", "Blue", "Yellow", "Green"], "Green", "<img src='assets/images/pikachu.png'/>", "The correct answer was Green.");
 	var q3 = new Trivia("Which of these titles was Luigi's first game?", ["Mario 64", "Luigi's Dream Castle", "Luigi and Peach", "Luigi's Mansion"], "Luigi's Mansion", "<img src='assets/images/luigi.png'/>", "The correct answer was Luigi's Mansion.");
@@ -80,8 +82,10 @@ var count = 0;
 	var q7 = new Trivia("Which of these titles was released on the Nintendo Gamecube for The Legend of Zelda?", ["Majora's Mask", "Ocarina of Time", "Wind Waker", "A Link to the Past"], "Wind Waker", "<img src='assets/images/toon-link.png'/>", "The correct answer was Wind Waker.");
 	var q8 = new Trivia("The character Samus is a ?", ["Man", "Alien", "Unknown", "Woman"], "Woman", "<img src='assets/images/samus.png'/>", "The correct answer was Woman.");
 
-
+	// create an array of questions
 	var questions = [q1, q2, q3, q4, q5, q6, q7, q8];
+
+	// declare variable to reference the index of the questions in the array
 	var index = 0;
 
 
@@ -101,61 +105,33 @@ var count = 0;
 			
 			$("#correct-question-box").html(questions[index].questionTitle);
 
-						// Question 1
+						
 						var question = questions[index];
 						console.log("index: " + index);
 						var choicesHtml = $(".choices");
-						for(var i = 0; i < choicesHtml.length; i++){
-
+						for(var i = 0; i < choicesHtml.length; i++)
+						{
+							// Updates the choices to the HTML page
 							var choiceHTML = $(choicesHtml[i]);
 							var selection = questions[index].choices[i];
 							$(choiceHTML).html(selection);
 
+							//This code below did not work..
+							//$(choiceHTML).html(selection);
+
 							// choiceHTML.off("click");
-
-
-							// $("#choice-one-box.choices").on("click", function()
+							// choiceHTML.on("click", function()
 							// {
 							// 	// count++;
-							// 	var userSelection = questions[index-1].choices[0];
-							// 	answerHelper(userSelection, question);
+							// 	answerHelper(selection, question);
 								
 							// 	clearInterval(countDownInterval);
-								
 							// });
-
-							// $("#choice-two-box.choices").on("click", function()
-							// {
-							// 	// count++;
-							// 	var userSelection = questions[index-1].choices[1];
-							// 	answerHelper(userSelection, question);
-								
-							// 	clearInterval(countDownInterval);
-								
-							// });
-
-							// $("#choice-three-box.choices").on("click", function()
-							// {
-							// 	// count++;
-							// 	var userSelection = questions[index-1].choices[2];
-							// 	answerHelper(userSelection, question);
-								
-							// 	clearInterval(countDownInterval);
-								
-							// });
-
-							// $("#choice-four-box.choices").on("click", function()
-							// {
-							// 	// count++;
-							// 	var userSelection = questions[index-1].choices[3];
-							// 	answerHelper(userSelection, question);
-								
-							// 	clearInterval(countDownInterval);
-								
-							// });
-
-
 						}
+
+
+
+							// Turns click off
 							$(".choices").off("click");
 
 
@@ -198,40 +174,33 @@ var count = 0;
 								clearInterval(countDownInterval);
 								
 							});
-
 			index++;
 		}
 			
 	}
 
-	
-
 	function answerHelper(userSelection, question)
 	{
 		    if(userSelection.includes(question.correctAnswer))
 		    {
-		    	// alert("Yay it worked!!");
-
+		    	
 		    	$("#correct-question-box").html("Correct!");
 		    	$(".question-choices-box").hide();
 		    	$("#generate-image-box").html(question.correctImage);
-		    	// $("#wrong-answer-text-box").html(questionDotWrongAnswerText);
 		    	$("#generate-image-box").show();
-    	    	// $("#wrong-answer-text-box").show();
 		    	wins++;
 		    	
 		    		setTimeout(function()
 		    	    {
 		    	    	$("#generate-image-box").hide();
-		    	    	// $("#wrong-answer-text-box").hide();
 		    	    	$(".question-choices-box").show();
 		    	    	newQuestion();
 				  	}, 3500);	
-				  		// newQuestion();
+
 		    }
 		    else
 		    {
-		    	// alert("sorry!!");
+		    	// update HTML
 		    	$("#correct-question-box").html("Incorrect..sorry.");
 		    	$(".question-choices-box").hide();
 		    	$("#generate-image-box").html(question.correctImage);
@@ -247,7 +216,7 @@ var count = 0;
 		    	    	$(".question-choices-box").show();
 		    	    	newQuestion();
 				  	}, 3500);
-		    		// newQuestion(count++);
+
 		    }
 		    count++;
 		    console.log("Wins: " + wins);

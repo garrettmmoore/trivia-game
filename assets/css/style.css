@@ -1,6 +1,8 @@
 body{
 	font-family: 'Gloria Hallelujah', cursive;
 	background-image: url("../images/nintendo-background.jpeg");
+	overflow:auto;
+	
 }
 
 
@@ -82,6 +84,7 @@ vertical-align: middle;
 
 margin-bottom: 30px;
 }
+
 
 #choice-one-box {
 text-align: center;
