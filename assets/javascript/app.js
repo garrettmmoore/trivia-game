@@ -1,72 +1,52 @@
+$(document).ready(function () {
+	$("#wrong-answer-text-box").hide();
 
-$( document ).ready(function() {
-$("#wrong-answer-text-box").hide();
+	// Declare Global Variables
+	var unanswered = 0;
+	var countDownInterval = null;
+	var wins = 0;
+	var loss = 0;
 
-var unanswered = 0;
-var countDownInterval=null;
+	// Create a timer
+	function timer() {
+		var counter = 20;
+		$("#time-box").html(counter);
+		countDownInterval = setInterval(function () {
+			counter--;
+			if (counter >= 0) {
+				$("#time-box").html(counter);
+			}
 
-// Create a timer
-function timer()
-{
-	var counter = 20;
-	$("#time-box").html(counter);
-	countDownInterval = setInterval(function() 
-	{
-
-		counter--;
-		if (counter >= 0) 
-    	{
-      		$("#time-box").html(counter);
-    	}
-
-		if (counter === 0) 
-		{
-        	clearInterval(countDownInterval);
-        	answerHelper("djhfsdla", questions[index-1]);
-        	unanswered++;
-
-		}
-    
-	}, 1000);
-}
-
-// Declare Global Variables
-
-var wins = 0;
-var loss = 0;
-var count = 0;
-
+			if (counter === 0) {
+				clearInterval(countDownInterval);
+				answerHelper("djhfsdla", questions[index - 1]);
+				unanswered++;
+			}
+		}, 1000);
+	}
 
 	// Create a start function to begin game on click
-	function startGame(){
+	function startGame() {
 		// Start button for user to click
-		$("#button1").click(function(){
+		$("#button1").click(function () {
 			clearInterval(countDownInterval);
 			index = 0;
-
-			count++;
-
 			// Hide button after click
-			$(this).hide();	
-
+			$(this).hide();
 			// Generates new question on click
 			newQuestion();
 			// Start Timer
-			
-			
 		});
 	}
 	// Call startGame function to get everything started on click
 	startGame();
 
 	// Create constructor object with these 8 parameters so the question objects(q1 - q8) can access these properties
-	function Trivia(question, choices, answer, image, wrongAnswer)
-	{
-
+	function Trivia(question, choices, answer, image, wrongAnswer) {
 		this.questionTitle = question;
 		this.choices = choices;
 		this.correctAnswer = answer;
-		this.correctImage= image;
+		this.correctImage = image;
 		// Text that shows when answer was incorrect
 		this.wrongAnswerText = wrongAnswer;
 	}
@@ -88,155 +68,97 @@ var count = 0;
 	// declare variable to reference the index of the questions in the array
 	var index = 0;
 
-
 	// Create newQuestion function that will choose the question to display 
-	function newQuestion()
-	{
+	function newQuestion() {
 		timer();
-		if(index >= questions.length)
-		{
-					
-			
+		if (index >= questions.length) {
 			endGame();
-			
-		}
-		else
-		{
-			
+		} else {
 			$("#correct-question-box").html(questions[index].questionTitle);
+			var question = questions[index];
+			console.log("index: " + index);
+			var choicesHtml = $(".choices");
+			for (var i = 0; i < choicesHtml.length; i++) {
+				// Updates the choices to the HTML page
+				var choiceHTML = $(choicesHtml[i]);
+				var selection = questions[index].choices[i];
+				$(choiceHTML).html(selection);
+			}
 
-						
-						var question = questions[index];
-						console.log("index: " + index);
-						var choicesHtml = $(".choices");
-						for(var i = 0; i < choicesHtml.length; i++)
-						{
-							// Updates the choices to the HTML page
-							var choiceHTML = $(choicesHtml[i]);
-							var selection = questions[index].choices[i];
-							$(choiceHTML).html(selection);
+			// Turns click off
+			$(".choices").off("click");
 
-							//This code below did not work..
-							//$(choiceHTML).html(selection);
+			$("#choice-one-box.choices").on("click", function () {
+				var userSelection = questions[index - 1].choices[0];
+				answerHelper(userSelection, question);
+				clearInterval(countDownInterval);
+			});
 
-							// choiceHTML.off("click");
-							// choiceHTML.on("click", function()
-							// {
-							// 	// count++;
-							// 	answerHelper(selection, question);
-								
-							// 	clearInterval(countDownInterval);
-							// });
-						}
+			$("#choice-two-box.choices").on("click", function () {
+				var userSelection = questions[index - 1].choices[1];
+				answerHelper(userSelection, question);
+				clearInterval(countDownInterval);
+			});
 
+			$("#choice-three-box.choices").on("click", function () {
+				var userSelection = questions[index - 1].choices[2];
+				answerHelper(userSelection, question);
+				clearInterval(countDownInterval);
+			});
 
-
-							// Turns click off
-							$(".choices").off("click");
-
-
-							$("#choice-one-box.choices").on("click", function()
-							{
-								// count++;
-								var userSelection = questions[index-1].choices[0];
-								answerHelper(userSelection, question);
-								
-								clearInterval(countDownInterval);
-								
-							});
-
-							$("#choice-two-box.choices").on("click", function()
-							{
-								// count++;
-								var userSelection = questions[index-1].choices[1];
-								answerHelper(userSelection, question);
-								
-								clearInterval(countDownInterval);
-								
-							});
-
-							$("#choice-three-box.choices").on("click", function()
-							{
-								// count++;
-								var userSelection = questions[index-1].choices[2];
-								answerHelper(userSelection, question);
-								
-								clearInterval(countDownInterval);
-								
-							});
-
-							$("#choice-four-box.choices").on("click", function()
-							{
-								// count++;
-								var userSelection = questions[index-1].choices[3];
-								answerHelper(userSelection, question);
-								
-								clearInterval(countDownInterval);
-								
-							});
+			$("#choice-four-box.choices").on("click", function () {
+				var userSelection = questions[index - 1].choices[3];
+				answerHelper(userSelection, question);
+				clearInterval(countDownInterval);
+			});
 			index++;
 		}
-			
 	}
 
-	function answerHelper(userSelection, question)
-	{
-		    if(userSelection.includes(question.correctAnswer))
-		    {
-		    	
-		    	$("#correct-question-box").html("Correct!");
-		    	$(".question-choices-box").hide();
-		    	$("#generate-image-box").html(question.correctImage);
-		    	$("#generate-image-box").show();
-		    	wins++;
-		    	
-		    		setTimeout(function()
-		    	    {
-		    	    	$("#generate-image-box").hide();
-		    	    	$(".question-choices-box").show();
-		    	    	newQuestion();
-				  	}, 3500);	
+	function answerHelper(userSelection, question) {
+		if (userSelection.includes(question.correctAnswer)) {
 
-		    }
-		    else
-		    {
-		    	// update HTML
-		    	$("#correct-question-box").html("Incorrect..sorry.");
-		    	$(".question-choices-box").hide();
-		    	$("#generate-image-box").html(question.correctImage);
-		    	$("#wrong-answer-text-box").html(question.wrongAnswerText);
-		    	$("#generate-image-box").show();
-    	    	$("#wrong-answer-text-box").show();
-		    	loss++;
-		    	
-		    		setTimeout(function()
-		    	    {
-		    	    	$("#generate-image-box").hide();
-		    	    	$("#wrong-answer-text-box").hide();
-		    	    	$(".question-choices-box").show();
-		    	    	newQuestion();
-				  	}, 3500);
+			$("#correct-question-box").html("Correct!");
+			$(".question-choices-box").hide();
+			$("#generate-image-box").html(question.correctImage);
+			$("#generate-image-box").show();
+			wins++;
 
-		    }
-		    count++;
-		    console.log("Wins: " + wins);
-		    console.log("Loss: " + loss);
-		    console.log("Count: " + count);
+			setTimeout(function () {
+				$("#generate-image-box").hide();
+				$(".question-choices-box").show();
+				newQuestion();
+			}, 3500);
 
-		    
+		} else {
+			// update HTML
+			$("#correct-question-box").html("Incorrect..sorry.");
+			$(".question-choices-box").hide();
+			$("#generate-image-box").html(question.correctImage);
+			$("#wrong-answer-text-box").html(question.wrongAnswerText);
+			$("#generate-image-box").show();
+			$("#wrong-answer-text-box").show();
+			loss++;
+
+			setTimeout(function () {
+				$("#generate-image-box").hide();
+				$("#wrong-answer-text-box").hide();
+				$(".question-choices-box").show();
+				newQuestion();
+			}, 3500);
+		}
+		console.log("Wins: " + wins);
+		console.log("Loss: " + loss);
 	}
-	
-	console.log("Count: " + count);
 
-
-function endGame(){
+	function endGame() {
 		$("#correct-question-box").html("All Done, Here's How You Did!");
 		$("#button1").show();
 		$("#choice-one-box").html("Correct Answers: " + wins);
 		$("#choice-two-box").html("Inorrect Answers: " + loss);
 		$("#choice-three-box").html("Unanswered: " + unanswered);
 		$("#choice-four-box").html("Click Start to play again!");
-		count = 0;
+
 		win = 0;
 		loss = 0;
 		unanswered = 0;
@@ -244,100 +166,5 @@ function endGame(){
 		clearInterval(countDownInterval);
 		console.log(index);
 		startGame();
-}
-
-
-	// }
+	}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //Create object
-// var question =
-// {
-// 	// functions
-// 	function start()
-// 	{
-
-// 		// prompt new question
-// 		// prompt new timer countdown
-
-// 	}
-
-// 	function play()
-// 	{
-// 		start();
-
-// 	}
-
-// 	function answer()
-// 	{
-// 		// start new mini timer and overwrite the other timer...maybe like 5 seconds
-// 		if(/* answer is correct*/)
-// 		{
-// 			// change html to display image
-// 			// 
-// 			win++;
-// 			count++;
-// 			start();
-			
-// 		}
-// 		else if(/*answer is wrong*/)
-// 		{
-// 			// change html to show correct answer
-// 			loss++;
-// 			count++;
-// 			start(); // generate new question
-			
-// 		}
-
-// 	}
-
-// 	function end()
-// 	{
-// 		// end game if this is true
-// 		if(count === 8){
-// 		// stop timer
-// 		// change html to display correct, incorrect, unanswered
-// 		}
-
-// 	}
-
-
-
-// 		$().on("click", function ()
-// 		{
-// 			//reset array function
-// 			//call start
-
-// 		}
-	
-
-// 	// call functions
-// 	// constantly call function to end the game when count reaches a certain point
-// 	end();
-// }
