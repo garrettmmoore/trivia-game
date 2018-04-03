@@ -5,7 +5,7 @@ Hello! This is a fun and interactive Trivia game I built for web browsers. This 
 
 ## Access
 1. The site is deployed via GitHub Pages.
-    1. View the site here: https://garrettmmoore.github.io/TriviaGame/
+    1. View the site here: https://garrettmmoore.github.io/trivia-game/
 
 ## Rules of the game
 1. Click "Start Game" to begin.
